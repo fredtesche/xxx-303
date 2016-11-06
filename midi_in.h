@@ -1,24 +1,4 @@
-void seqStart() {
-  paused = 0;
-  ticks = 0;
-  playing = 1;
-}
-
-void seqContinue() {
-  paused = 0;
-  playing = 1;
-}
-
-void seqPause() {
-  playing = 0;
-  paused = 1;
-}
-
-void seqStop() {
-  playing = 0;
-  ticks = 0;
-  paused = 0;
-}
+// MIDI in functions. Not fully implemented yet.
 
 void handleSongPosition(unsigned int beats) {
 
