@@ -1,32 +1,5 @@
-// Functions to handle stuff
-
-void handleClock() {
-
-  // Determine the playingPattern based on the ticks
-  playingPattern = (int)(ticks / playingPattern);
-
-  // Determine which led to light up. This is basically magic.
-  seqPos = (ticks / 6) % 16;
-
-  // If there have been 6 ticks, then refresh the led array
-  if (ticks % 6 == 0) {
-    seqLedRefresh = 1;
-  }
-
-  ticks++;
-
-  // Reset the ticks based on patternAmount
-  if (ticks > ((patternAmount * 96) - 1)) {
-    ticks = 0;
-  }
-  //MIDI.sendTimeCodeQuarterFrame(248);
-
-  Serial.println(ticks);
-
-}
-
+// Various functions
 void seqStart() {
-  ticks = 0;
   playing = 1;
   paused = 0;
   stopped = 0;
@@ -46,12 +19,48 @@ void seqPause() {
 
 void seqStop() {
   ticks = 0;
+  seqPos = 0;
   playing = 0;
   paused = 0;
   stopped = 1;
+  seqLedRefresh = 1;
 }
 
-void handleSongPosition(unsigned int beats) {
+// Play a note
+void playNote() {
+  Serial.println(stepNote[playingPattern][seqPos]); // Debug
+
+  switch (stepPlay[playingPattern][seqPos]) {
+    case -1:
+      // Skip the remaining notes
+      seqPos = 16;
+      break;
+    case 0:
+      // Don't play a note
+      break;
+    case 1:
+      // Turn off the previous note and play a new note.
+      // digitalWrite(accentPin, LOW);
+      usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
+      usbMIDI.sendNoteOn(stepNote[playingPattern][seqPos], 127, midiChannel);
+      lastNote = stepNote[playingPattern][seqPos];
+      break;
+    case 2:
+      // Turn off the previous note, and play a new accented note
+      // digitalWrite(accentPin, HIGH);
+      usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
+      usbMIDI.sendNoteOn(stepNote[playingPattern][seqPos], 127, midiChannel);
+      lastNote = stepNote[playingPattern][seqPos];
+      break;
+  }
+}
+
+
+/*
+
+
+  // External MIDI clock beats
+  void handleSongPosition(unsigned int beats) {
 
   switch (beats) {
     case 0: case 16: case 32: case 48: case 64: case 80: case 96: case 112:
@@ -120,4 +129,4 @@ void handleSongPosition(unsigned int beats) {
       break;
   }
 
-}
+  }*/

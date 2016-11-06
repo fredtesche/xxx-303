@@ -40,8 +40,8 @@
 #include <TimerOne.h>
 #include "globals.h"
 #include "functions.h"
+#include "clock.h"
 #include "bpm.h"
-#include "notes.h"
 
 #define ss 0
 
@@ -80,57 +80,41 @@ void loop() {
   if (playButton.fallingEdge()) {
     if (playing == 0) { // Only do stuff if the sequencer is not running
       if (paused == 1 && stopped == 0) {
-        Serial.println("Continue");
         //MIDI.sendSongPosition(math to determine song position, based on playingPattern and seqPos);
         //MIDI.sendRealTime(Start);
         Timer1.resume();
-        seqLedRefresh = 1;
         seqContinue();
       } else if (paused == 0 && stopped == 1) {
-        Serial.println("Start");
         //MIDI.sendSongPosition(0);
         //MIDI.sendRealTime(Start);
-        Timer1.start();
-        seqLedRefresh = 1;
+        Timer1.restart();
         seqStart();
       }
-      Serial.print("Playing: ");
-      Serial.println(playing);
-      Serial.print("Paused: ");
-      Serial.println(paused);
-      Serial.print("Stopped: ");
-      Serial.println(stopped);
+
     }
   } // End play button logic
 
   if (stopButton.fallingEdge()) {
     if (stopped == 0) { // Only do stuff if we are paused or playing
       if (playing == 0 && paused == 1) {
-        Serial.println("Stop");
         //MIDI.sendRealTime(Stop);
         //MIDI.sendSongPosition(0);
         Timer1.stop();
-        seqPos = 0;
-        seqLedRefresh = 1;
+        usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
         seqStop();
       }
       if (playing == 1 && paused == 0) {
-        Serial.println("Pause");
         //MIDI.sendRealTime(Stop);
         Timer1.stop();
+        usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
         seqPause();
       }
-      Serial.print("Playing: ");
-      Serial.println(playing);
-      Serial.print("Paused: ");
-      Serial.println(paused);
-      Serial.print("Stopped: ");
-      Serial.println(stopped);
+
     }
   } // End stop button logic
 
   if (seqLedRefresh == 1) {
-    playPattern(seqPos, playingPattern);
+
     if (seqPos < 8) {
       shiftB = B00000001 << seqPos;
       shiftA = B00000000;
@@ -143,6 +127,7 @@ void loop() {
     if (seqPos > 15) {
       seqPos = 0;
     }
+
     digitalWrite(ss, LOW);
     SPI.transfer(shiftA);
     SPI.transfer(shiftB);
@@ -152,5 +137,6 @@ void loop() {
 
 
 }
+
 
 

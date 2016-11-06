@@ -1,53 +1,6 @@
 // Scratch pad and/or deprecated stuff
 
 
-void handleClock() {
-
-  if (playing == 1) {
-
-    // Determine the currently playing pattern. This is basically magic.
-    playingPattern = (int)(ticks / playingPattern);
-
-    // Determine which led to light up. This is also basically magic.
-    seqPos = (ticks / 6) % 16;
-
-    // If there have been 6 ticks, then refresh the led array
-    if (ticks % 6 == 0) {
-      seqLedRefresh = 1;
-    }
-
-    ticks++;
-
-    // Reset the ticks based on patternAmount
-    if (ticks > ((patternAmount * 96) - 1)) {
-      ticks = 0;
-    }
-
-  }
-
-}
-
-void seqStart() {
-  paused = 0;
-  ticks = 0;
-  playing = 1;
-}
-
-void seqContinue() {
-  paused = 0;
-  playing = 1;
-}
-
-void seqPause() {
-  playing = 0;
-  paused = 1;
-}
-
-void seqStop() {
-  playing = 0;
-  ticks = 0;
-  paused = 0;
-}
 
 void handleSongPosition(unsigned int beats) {
 
