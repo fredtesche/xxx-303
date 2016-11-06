@@ -58,7 +58,6 @@ void playNote() {
 
 /*
 
-
   // External MIDI clock beats
   void handleSongPosition(unsigned int beats) {
 

@@ -26,6 +26,7 @@ fred@fakecomputermusic.com
 
 **TODO:**
 - Add MIDI in/out
+- Add USB MIDI in/out
 - Build UI
 - Figure out how digital pots work
 - Get the altsoftserial stuff working
