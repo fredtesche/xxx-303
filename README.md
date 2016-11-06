@@ -22,7 +22,7 @@ fred@fakecomputermusic.com
 - [UART -> MIDI interface](http://www.hobbytronics.co.uk/midi-breakout?keyword=midi) (or build your own)
 - 2x16 LCD
 - 2 SN74HC595 shift registers
-- Some buttons and knobs and crap
+- Some buttons, pots, leds, and other crap
 
 **TODO:**
 - Add MIDI in/out
