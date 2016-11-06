@@ -19,31 +19,34 @@ void handleClock() {
   if (ticks > ((patternAmount * 96) - 1)) {
     ticks = 0;
   }
-  MIDI.sendTimeCodeQuarterFrame(248);
+  //MIDI.sendTimeCodeQuarterFrame(248);
+
+  Serial.println(ticks);
+
 }
 
 void seqStart() {
-  stopped = 0;
-  paused = 0;
   ticks = 0;
   playing = 1;
+  paused = 0;
+  stopped = 0;
 }
 
 void seqContinue() {
-  stopped = 0;
-  paused = 0;
   playing = 1;
+  paused = 0;
+  stopped = 0;
 }
 
 void seqPause() {
   playing = 0;
-  stopped = 0;
   paused = 1;
+  stopped = 0;
 }
 
 void seqStop() {
-  playing = 0;
   ticks = 0;
+  playing = 0;
   paused = 0;
   stopped = 1;
 }

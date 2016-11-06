@@ -2,8 +2,8 @@ byte midiChannel = 9;     // The global MIDI channel
 byte tempo = 120;         // Set the tempo
 bool playing = 0;         // Are we playing a tune?
 bool paused = 0;          // Are we paused?
-bool stopped = 0;         // Are we stopped?
-int ticks = 0;            // A place to store the amount of MIDI ticks received
+bool stopped = 1;         // Are we stopped? (Must init to 1)
+volatile unsigned long  ticks = 0;            // A place to store the amount of MIDI ticks received
 byte songPosition = 0;    // A place to store the current MIDI song position
 byte lastNote;            // A place to remember the last MIDI note we played
 
@@ -47,9 +47,9 @@ bool stepSlide[8][16] = {
 };
 
 /*
-// Holds the note values. Default should be 60, which is C3
-// Why the hell doesn't this work?
-byte stepNotes[8][16] = {
+  // Holds the note values. Default should be 60, which is C3
+  // Why the hell doesn't this work?
+  byte stepNotes[8][16] = {
   {37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37,},
   {37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37,},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -58,7 +58,7 @@ byte stepNotes[8][16] = {
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-};
+  };
 */
 byte pattern0[] = {37, 37, 37, 37, 82, 37, 37, 37, 37, 37, 37, 37, 82, 37, 37, 37};
 byte pattern1[] = {37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37};
