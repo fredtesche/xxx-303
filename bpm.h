@@ -1,6 +1,6 @@
 // This is a conversion table of bpms to micro intervals. Maybe do like 60bpm-170bpm only.
 // A math function would be nice here, but the nanos vary too much between bpms
-// using the Teensy's internal clock. Maybe an external clock would be better...
+// using the Teensy's internal clock. Maybe an external timing source would be better...
 // Distance between nanos seem to be 145-165.
 // This should be tediously expanded to at least another decimal spot, then made into a table, and moved to progmem.
 
