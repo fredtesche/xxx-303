@@ -1,11 +1,11 @@
 byte midiChannel = 9;     // The global MIDI channel
 byte tempo = 120;         // Set the tempo
-bool clockSource = 0;     // Use internal clock (0) or external clock (1)
+byte clockSource = 1;     // Internal clock (0), external clock (1)
 bool playing = 0;         // Are we playing a tune?
 bool paused = 0;          // Are we paused?
 bool stopped = 1;         // Are we stopped? (Must init to 1)
 //volatile unsigned long ticks = 0;   // A tick of the Teensy's internal clock
-int ticks = 0;            // A tick of the Teensy's internal clock
+int ticks = 0;            // A tick of the clock
 byte songPosition = 0;    // A place to store the current MIDI song position
 byte lastNote;            // A place to remember the last MIDI note we played
 
@@ -16,6 +16,12 @@ bool seqLedRefresh = 1;   // Should we refresh the LED array?
 int playingPattern = 0;  // The currently playing pattern, 0-7
 byte patternAmount = 2;   // How many patterns will play
 
+byte midiClock = 248; 
+byte midiStart = 250; 
+byte midiContinue = 251; 
+byte midiStop = 252; 
+
+int counter;
 
 // Determine how to play a step
 // -1: restart

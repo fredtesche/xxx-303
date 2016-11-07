@@ -1,6 +1,6 @@
 // Internal clock handlers and related functions
 
-void handleClock() {
+void handleIntClock() {
 
   if (playing == 1) {
     // Determine the currently playing pattern. 96 ticks in a pattern.

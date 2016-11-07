@@ -4,7 +4,8 @@
 #include <TimerOne.h>
 #include "globals.h"
 #include "functions.h"
-#include "clock.h"
+#include "int_clock.h"
+#include "ext_clock.h"
 #include "bpm.h"
 
 #define ss 0
@@ -14,7 +15,7 @@ Bounce stopButton = Bounce(20, 5);
 
 void setup() {
   Timer1.initialize(bpm126);
-  Timer1.attachInterrupt(handleClock);
+  Timer1.attachInterrupt(handleIntClock);
   Timer1.stop();
   pinMode(20, INPUT_PULLUP);
   pinMode(21, INPUT_PULLUP);
@@ -29,15 +30,13 @@ void setup() {
   //MIDI.setHandleStop(seqStop);
   //MIDI.setHandleSongPosition(handleSongPosition);
 
+  usbMIDI.setHandleRealTimeSystem(handleExtClock);
   MIDI.begin(9);
-}
-
-void sendMidiClock() {
-  MIDI.sendRealTime(Clock);
 }
 
 void loop() {
   MIDI.read();
+  usbMIDI.read();
   playButton.update();
   stopButton.update();
 
