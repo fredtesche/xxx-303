@@ -1,4 +1,8 @@
 // Various functions
+
+void test(byte beats){
+  }
+
 void seqStart() {
   playing = 1;
   paused = 0;

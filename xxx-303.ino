@@ -21,60 +21,70 @@ void setup() {
   pinMode(21, INPUT_PULLUP);
   pinMode(ss, OUTPUT);
   SPI.begin();
-  Serial.begin(9600);
+  Serial.begin(31250);
 
   // Handle incoming MIDI events
-  //MIDI.setHandleClock(handleClock);
-  //MIDI.setHandleStart(seqStart);
-  //MIDI.setHandleContinue(seqContinue);
-  //MIDI.setHandleStop(seqStop);
-  //MIDI.setHandleSongPosition(handleSongPosition);
-
-  usbMIDI.setHandleRealTimeSystem(handleExtClock);
-  MIDI.begin(9);
+  MIDI.setHandleClock(handleExtClock);
+  MIDI.setHandleStart(handleExtStart);
+  MIDI.setHandleContinue(handleExtContinue);
+  MIDI.setHandleStop(handleExtStop);
+  //MIDI.setHandleSongPosition(songPosition);
+  //usbMIDI.setHandleRealTimeSystem(handleExtUSBTransport);
+  usbMIDI.setHandleSongPosition(test); // Trying to figure out how to make song position work..... hmm
+  MIDI.begin(midiChannel);
 }
 
 void loop() {
-  MIDI.read();
-  usbMIDI.read();
+
   playButton.update();
   stopButton.update();
 
-  if (playButton.fallingEdge()) {
-    if (playing == 0) { // Only do stuff if the sequencer is not running
-      if (paused == 1 && stopped == 0) {
-        //MIDI.sendSongPosition(math to determine song position, based on playingPattern and seqPos);
-        //MIDI.sendRealTime(Start);
-        Timer1.resume();
-        seqContinue();
-      } else if (paused == 0 && stopped == 1) {
-        //MIDI.sendSongPosition(0);
-        //MIDI.sendRealTime(Start);
-        Timer1.restart();
-        seqStart();
+  switch (clockSource) { // Using internal clock or external clock?
+    case 1:
+      MIDI.read();
+      usbMIDI.read();
+
+      if (usbMIDI.read()) {
+        
+        Serial.println(usbMIDI.getData1());
+        Serial.println(usbMIDI.getData2());
+       // Serial.println(usbMIDI.getSysExArray());
+       //usbMIDI.read();
+       
       }
 
-    }
-  } // End play button logic
+      break;
+    case 0:
+      if (playButton.fallingEdge()) {
+        if (playing == 0) { // Only do stuff if the sequencer is not running
+          if (paused == 1 && stopped == 0) {
+            Timer1.resume();
+            seqContinue();
+          } else if (paused == 0 && stopped == 1) {
+            Timer1.restart();
+            seqStart();
+          }
 
-  if (stopButton.fallingEdge()) {
-    if (stopped == 0) { // Only do stuff if we are paused or playing
-      if (playing == 0 && paused == 1) {
-        //MIDI.sendRealTime(Stop);
-        //MIDI.sendSongPosition(0);
-        Timer1.stop();
-        usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
-        seqStop();
-      }
-      if (playing == 1 && paused == 0) {
-        //MIDI.sendRealTime(Stop);
-        Timer1.stop();
-        usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
-        seqPause();
-      }
+        }
+      } // End play button logic
 
-    }
-  } // End stop button logic
+      if (stopButton.fallingEdge()) {
+        if (stopped == 0) { // Only do stuff if we are paused or playing
+          if (playing == 0 && paused == 1) {
+            Timer1.stop();
+            usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
+            seqStop();
+          }
+          if (playing == 1 && paused == 0) {
+            Timer1.stop();
+            usbMIDI.sendNoteOff(lastNote, 0, midiChannel);
+            seqPause();
+          }
+
+        }
+      } // End stop button logic
+      break;
+  }
 
   if (seqLedRefresh == 1) {
 
