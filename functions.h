@@ -1,8 +1,5 @@
 // Various functions
 
-void test(byte beats){
-  }
-
 void seqStart() {
   playing = 1;
   paused = 0;
@@ -32,7 +29,7 @@ void seqStop() {
 
 // Play a note
 void playNote() {
-  Serial.println(stepNote[playingPattern][seqPos]); // Debug
+  //Serial.println(stepNote[playingPattern][seqPos]); // Debug
 
   switch (stepPlay[playingPattern][seqPos]) {
     case -1:

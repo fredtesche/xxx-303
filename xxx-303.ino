@@ -13,6 +13,8 @@
 Bounce playButton = Bounce(21, 5);
 Bounce stopButton = Bounce(20, 5);
 
+byte nothing;
+
 void setup() {
   Timer1.initialize(bpm126);
   Timer1.attachInterrupt(handleIntClock);
@@ -30,8 +32,13 @@ void setup() {
   MIDI.setHandleStop(handleExtStop);
   //MIDI.setHandleSongPosition(songPosition);
   //usbMIDI.setHandleRealTimeSystem(handleExtUSBTransport);
+  //bookmark
   usbMIDI.setHandleSongPosition(test); // Trying to figure out how to make song position work..... hmm
   MIDI.begin(midiChannel);
+}
+
+void test(byte what) {
+  nothing = what;
 }
 
 void loop() {
@@ -45,12 +52,7 @@ void loop() {
       usbMIDI.read();
 
       if (usbMIDI.read()) {
-        
-        Serial.println(usbMIDI.getData1());
-        Serial.println(usbMIDI.getData2());
-       // Serial.println(usbMIDI.getSysExArray());
-       //usbMIDI.read();
-       
+        Serial.println(nothing);
       }
 
       break;
