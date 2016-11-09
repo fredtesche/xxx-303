@@ -2,6 +2,7 @@
 #include <MIDI.h>
 #include <Bounce.h>
 #include <TimerOne.h>
+#include <LiquidCrystalFast.h>
 #include "globals.h"
 #include "functions.h"
 #include "int_clock.h"
@@ -13,6 +14,9 @@
 Bounce playButton = Bounce(21, 5);
 Bounce stopButton = Bounce(20, 5);
 
+// maybe skip pin 6. connect to ground. test first because i can't remember.
+LiquidCrystalFast lcd(4, 5, 6, 7, 8, 9, 10);
+
 byte nothing;
 
 void setup() {
@@ -22,6 +26,8 @@ void setup() {
   pinMode(20, INPUT_PULLUP);
   pinMode(21, INPUT_PULLUP);
   pinMode(ss, OUTPUT);
+  lcd.begin(16,2);
+  lcd.print("xxx-303");
   SPI.begin();
   Serial.begin(31250);
 
