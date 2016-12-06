@@ -1,5 +1,5 @@
-#define PortExp0 B0000     // SPI chip at address 0
-#define PortExp1 B0001     // SPI chip at address 1
+#define PortExp0 B0000    // SPI chip at address 0
+#define PortExp1 B0001    // SPI chip at address 1
 
 #define IOCONA   0x0A     // Main config
 #define IOCONB   0x0A  

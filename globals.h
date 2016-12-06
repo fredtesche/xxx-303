@@ -1,5 +1,5 @@
 byte midiChannel = 9;     // The global MIDI channel
-byte tempo = 120;         // Set the tempo
+//byte tempo = 120;         // Set the tempo
 bool clockSource = 0;     // Internal clock (0), external clock (1)
 bool playing = 0;         // Are we playing a tune?
 bool paused = 0;          // Are we paused?
