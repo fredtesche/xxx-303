@@ -1,3 +1,28 @@
+void spiWrite(byte select, byte chip, byte addr, byte data) {
+  digitalWrite(select, LOW);
+  SPI.transfer(B01000000 + chip); // Send the opcode and the chip address
+  SPI.transfer(addr); // Select the register
+  SPI.transfer(data); // Select the pin to read (with 0 and 1)
+  digitalWrite(select, HIGH);
+}
+
+void shiftWrite(byte select, byte shiftA, byte shiftB) {
+  digitalWrite(select, LOW);
+  SPI.transfer(shiftA);
+  SPI.transfer(shiftB);
+  digitalWrite(select, HIGH);
+}
+
+int spiRead(byte select, byte chip, byte reg) {
+  digitalWrite(select, LOW);
+  chip = chip | B00000001; // Add read bit to chip address
+  SPI.transfer(B01000000 + chip); // Send the opcode and chip address
+  SPI.transfer(reg);      // Select which register to read
+  data = SPI.transfer(0x00); // Spi library tx/rx simultaneously, so tx any data to rx
+  digitalWrite(select, HIGH);
+  return data;
+}
+
 // Various functions
 
 void seqStart() {

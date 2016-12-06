@@ -1,7 +1,7 @@
 // Internal clock handlers and related functions
 
 void handleIntClock() {
-
+  Serial.println("Tick");
   if (playing == 1) {
     // Determine the currently playing pattern. 96 ticks in a pattern.
     playingPattern = (int)(ticks / 96);

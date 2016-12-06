@@ -1,6 +1,6 @@
 xxx-303
 =
-**A step sequencer that runs on Teensy 2.0. It's built to drive the [Open Labs x0x-Heart](http://www.openmusiclabs.com)**
+**A step sequencer that runs on Teensy++ 2.0. It's built to drive the [Open Labs x0x-Heart](http://www.openmusiclabs.com)**
 
 Fred Tesche 2016  
 www.fakecomputermusic.com  
@@ -16,7 +16,7 @@ fred@fakecomputermusic.com
 - 2x16 LCD
 
 **Required hardware:**
-- [Teensy 2.0](https://pjrc.com)
+- [Teensy++ 2.0](https://pjrc.com)
 - [x0x-Heart](http://www.openmusiclabs.com)
 - [Midi2CV Mk2](https://midisizer.com/midi2cv-mk2/)
 - [UART -> MIDI interface](http://www.hobbytronics.co.uk/midi-breakout?keyword=midi) (or build your own)
@@ -29,5 +29,4 @@ fred@fakecomputermusic.com
 - Add USB MIDI in/out
 - Build UI
 - Figure out how digital pots work
-- Get the altsoftserial stuff working
 - Build out micros -> bpm table and move to program memory
